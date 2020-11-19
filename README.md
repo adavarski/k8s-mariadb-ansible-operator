@@ -181,9 +181,9 @@ The following command will assign the token to the expected variable:
   export QUAY_TOKEN="basic XXXXXXXXX="
 $ OPERATOR_DIR=bundle
 $ QUAY_NAMESPACE=davarski
-PACKAGE_NAME=visitors-ansible-operator
-PACKAGE_VERSION=1.0.0
-QUAY_TOKEN="basic XXXXXXXXX="
+$ PACKAGE_NAME=visitors-ansible-operator
+$ PACKAGE_VERSION=1.0.0
+$ QUAY_TOKEN="basic XXXXXXXXX="
 $ operator-courier push "$OPERATOR_DIR" "$QUAY_NAMESPACE" \
 "$PACKAGE_NAME" "$PACKAGE_VERSION" "$QUAY_TOKEN"
 
