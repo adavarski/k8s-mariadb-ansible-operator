@@ -1,6 +1,6 @@
 # MariaDB Operator for Kubernetes
 
-[![Build Status](https://travis-ci.com/adavarski/k8s-mariadb-ansible-operator.svg?branch=master)](https://travis-ci.com/adavarski/k8s-mariadb-ansible-operator)
+[![Build Status](https://travis-ci.org/adavarski/k8s-mariadb-ansible-operator.svg?branch=main)](https://travis-ci.org/adavarski/k8s-mariadb-ansible-operator.svg?branch=main)
 
 This is a MariaDB Operator (ansible-based), which makes management of MariaDB instances (or clusters) running inside Kuberenetes clusters easy. It was built with the [Operator SDK](https://github.com/operator-framework/operator-sdk) using [Ansible](https://www.ansible.com/blog/ansible-operator).  
 
