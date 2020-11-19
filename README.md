@@ -217,7 +217,7 @@ $ kubectl get pods -n marketplace
 Cleaning up:
 ```
 $ kubectl delete -f subscription.yaml
-...
+```
 
 ## Usage
 
