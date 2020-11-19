@@ -231,7 +231,7 @@ or git pull ; kubectl apply -f deploy/mariadb-operator.yaml
 
 Then you can create instances of MariaDB in any namespace, for example:
 
-  1. Create a file named `my-database.yml` with the following contents:
+  1. Create a file named `my-database1.yml` with the following contents:
 
      ```
      ---
@@ -251,7 +251,7 @@ Then you can create instances of MariaDB in any namespace, for example:
   2. Use `kubectl` to create the MariaDB instance in your cluster:
 
      ```
-     kubectl apply -f my-database.yml
+     kubectl apply -f my-database1.yml
      ```
 
 > You can also deploy `MariaDB` instances into other namespaces by changing `metadata.namespace`, or deploy multiple `MariaDB` instances into the same namespace by changing `metadata.name`.
