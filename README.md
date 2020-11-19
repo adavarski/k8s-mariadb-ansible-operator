@@ -225,10 +225,9 @@ This Kubernetes Operator is meant to be deployed in your Kubernetes cluster(s) a
 
 First you need to deploy MariaDB Operator into your cluster:
 
-    kubectl apply -f https://raw.githubusercontent.com/adavarski/k8s-mariadb-ansible-operator/master/deploy/mariadb-operator.yaml
+    kubectl apply -f https://raw.githubusercontent.com/adavarski/k8s-mariadb-ansible-operator/main/deploy/mariadb-operator.yaml
 
-or 
-    kubectl apply -f deploy/mariadb-operator.yaml
+or git pull ; kubectl apply -f deploy/mariadb-operator.yaml
 
 Then you can create instances of MariaDB in any namespace, for example:
 
