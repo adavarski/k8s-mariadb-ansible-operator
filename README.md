@@ -7,7 +7,7 @@ This is a MariaDB Operator (ansible-based), which makes management of MariaDB in
 The Operator SDK provides a way to build an Operator that will run Ansible playbooks to react to CR changes. The SDK supplies the code for the Kubernetes pieces,
 such as the controller, allowing you to focus on writing the playbooks themselves.
 
-If you want you can use ansible role and playbook file ts base and build similiar MariaDB Operator using Operator SDK.
+If you want you can use ansible role and playbook file as base and build similiar MariaDB Operator using Operator SDK.
 
 ```
 $ cd ansible-base
