@@ -292,9 +292,12 @@ You can also expose a database instance to the outside world by adding a `Servic
 
 Once you create that service in the same namespace, you can connect to MariaDB via the NodePort assigned to the service.
 
-Note: k3s deploy 
+Note: k3s deploy/test/clean 
 ```
+#Install k3s
 $ curl -sfL https://get.k3s.io | sh -
+
+#Deploy operator
 $ kubectl apply -f https://raw.githubusercontent.com/adavarski/k8s-mariadb-ansible-operator/main/deploy/mariadb-operator.yaml
 clusterrole.rbac.authorization.k8s.io/mariadb-operator created
 clusterrolebinding.rbac.authorization.k8s.io/mariadb-operator created
@@ -308,6 +311,7 @@ busybox                             1/1     Running   759        72d
 dnsutils                            1/1     Running   755        71d
 mariadb-operator-77559d7c49-gfczb   2/2     Running   0          102s
 
+#Deploy DB
 $ cat db1.yaml 
 ---
 apiVersion: mariadb.mariadb.com/v1alpha1
@@ -330,7 +334,7 @@ $ kubectl get po -n example-mariadb
 NAME                READY   STATUS    RESTARTS   AGE
 example-mariadb-0   1/1     Running   0          56s
 
-
+#Test DB
 $ kubectl -n example-mariadb run -it --rm mysql-client --image=arey/mysql-client --restart=Never -- -h example-mariadb-0.example-mariadb.example-mariadb.svc.cluster.local -u db_user -pCHANGEME -D db
 davar@carbon:~/Downloads/TMP/k8s-mariadb-ansible-operator$ kubectl -n example-mariadb run -it --rm mysql-client --image=arey/mysql-client --restart=Never -- -h example-mariadb-0.example-mariadb.example-mariadb.svc.cluster.local -u db_user -pCHANGEME -D db
 If you don't see a command prompt, try pressing enter.
@@ -345,7 +349,7 @@ MariaDB [db]> show databases;
 
 MariaDB [db]> 
 
-#Clean
+#Clean DB/Operator
 $ kubectl delete -f db1.yaml 
 mariadb.mariadb.mariadb.com "example-mariadb" deleted
 $ kubectl delete ns/example-mariadb
