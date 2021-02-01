@@ -292,4 +292,69 @@ You can also expose a database instance to the outside world by adding a `Servic
 
 Once you create that service in the same namespace, you can connect to MariaDB via the NodePort assigned to the service.
 
+Note: k3s deploy 
+```
+$ curl -sfL https://get.k3s.io | sh -
+$ kubectl apply -f https://raw.githubusercontent.com/adavarski/k8s-mariadb-ansible-operator/main/deploy/mariadb-operator.yaml
+clusterrole.rbac.authorization.k8s.io/mariadb-operator created
+clusterrolebinding.rbac.authorization.k8s.io/mariadb-operator created
+serviceaccount/mariadb-operator created
+deployment.apps/mariadb-operator created
+customresourcedefinition.apiextensions.k8s.io/mariadbs.mariadb.mariadb.com created
+$ kubectl get po
+NAME                                READY   STATUS    RESTARTS   AGE
+jupyter-notebook                    1/1     Running   41         23d
+busybox                             1/1     Running   759        72d
+dnsutils                            1/1     Running   755        71d
+mariadb-operator-77559d7c49-gfczb   2/2     Running   0          102s
 
+$ cat db1.yaml 
+---
+apiVersion: mariadb.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: example-mariadb
+  namespace: example-mariadb
+spec:
+  masters: 1
+  replicas: 0
+  mariadb_password: CHANGEME
+  mariadb_image: mariadb:10.4
+  mariadb_pvc_storage_request: 1Gi
+
+$ kubectl create ns example-mariadb
+namespace/example-mariadb created
+$ kubectl apply -f db1.yaml 
+mariadb.mariadb.mariadb.com/example-mariadb created
+$ kubectl get po -n example-mariadb
+NAME                READY   STATUS    RESTARTS   AGE
+example-mariadb-0   1/1     Running   0          56s
+
+
+$ kubectl -n example-mariadb run -it --rm mysql-client --image=arey/mysql-client --restart=Never -- -h example-mariadb-0.example-mariadb.example-mariadb.svc.cluster.local -u db_user -pCHANGEME -D db
+davar@carbon:~/Downloads/TMP/k8s-mariadb-ansible-operator$ kubectl -n example-mariadb run -it --rm mysql-client --image=arey/mysql-client --restart=Never -- -h example-mariadb-0.example-mariadb.example-mariadb.svc.cluster.local -u db_user -pCHANGEME -D db
+If you don't see a command prompt, try pressing enter.
+MariaDB [db]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db                 |
+| information_schema |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [db]> 
+
+#Clean
+$ kubectl delete -f db1.yaml 
+mariadb.mariadb.mariadb.com "example-mariadb" deleted
+$ kubectl delete ns/example-mariadb
+namespace "example-mariadb" deleted
+$ kubectl delete -f https://raw.githubusercontent.com/adavarski/k8s-mariadb-ansible-operator/main/deploy/mariadb-operator.yaml
+clusterrole.rbac.authorization.k8s.io "mariadb-operator" deleted
+clusterrolebinding.rbac.authorization.k8s.io "mariadb-operator" deleted
+serviceaccount "mariadb-operator" deleted
+deployment.apps "mariadb-operator" deleted
+customresourcedefinition.apiextensions.k8s.io "mariadbs.mariadb.mariadb.com" deleted
+
+```
